@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Записали — ИИ-бот, который ответит и запишет за вас</title>
+<meta name="description" content="ИИ-администратор для вашего бизнеса. Отвечает клиентам в Telegram и на сайте, записывает на приём, напоминает о визите. 24/7 без выходных.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #FAFAF8;
+  --bg-card: #FFFFFF;
+  --bg-dark: #0F1114;
+  --bg-accent: #E8F5E9;
+  --text: #1A1A1A;
+  --text-secondary: #6B7280;
+  --text-light: #9CA3AF;
+  --accent: #22C55E;
+  --accent-dark: #16A34A;
+  --accent-glow: rgba(34, 197, 94, 0.15);
+  --border: #E5E7EB;
+  --border-light: #F3F4F6;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font: 'Onest', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(250, 250, 248, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+}
+nav .nav-inner {
+  max-width: 1140px; margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-size: 22px; font-weight: 700; color: var(--text);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.logo-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+}
+nav a.nav-link {
+  font-size: 14px; color: var(--text-secondary);
+  text-decoration: none; transition: color 0.2s;
+}
+nav a.nav-link:hover { color: var(--text); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-cta {
+  background: var(--accent); color: white;
+  padding: 10px 24px; border-radius: 100px;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none; transition: all 0.2s;
+  border: none; cursor: pointer;
+}
+.nav-cta:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+/* SECTIONS */
+section { padding: 100px 24px; }
+.container { max-width: 1140px; margin: 0 auto; }
+
+/* HERO */
+.hero {
+  padding: 160px 24px 100px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg-accent);
+  padding: 6px 16px 6px 8px;
+  border-radius: 100px;
+  font-size: 13px; font-weight: 500;
+  color: var(--accent-dark);
+  margin-bottom: 24px;
+}
+.hero-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.hero h1 {
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent), #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+.hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--accent); color: white;
+  padding: 16px 36px; border-radius: 100px;
+  font-size: 16px; font-weight: 600;
+  text-decoration: none; transition: all 0.25s;
+  border: none; cursor: pointer;
+  font-family: var(--font);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(34, 197, 94, 0.3);
+}
+.btn-secondary {
+  background: transparent; color: var(--text);
+  padding: 16px 28px; border-radius: 100px;
+  font-size: 16px; font-weight: 500;
+  text-decoration: none; transition: all 0.2s;
+  border: 1px solid var(--border);
+  cursor: pointer; font-family: var(--font);
+}
+.btn-secondary:hover { border-color: var(--text-secondary); }
+.hero-stats {
+  display: flex; gap: 40px; margin-top: 48px;
+}
+.hero-stat-num {
+  font-size: 28px; font-weight: 700;
+  font-family: var(--mono);
+  color: var(--text);
+}
+.hero-stat-label {
+  font-size: 13px; color: var(--text-light); margin-top: 2px;
+}
+
+/* PHONE MOCKUP */
+.phone-mockup {
+  width: 320px; margin: 0 auto;
+  background: var(--bg-card);
+  border-radius: 32px;
+  border: 1px solid var(--border);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.08),
+    0 1px 3px rgba(0,0,0,0.04);
+  overflow: hidden;
+  position: relative;
+}
+.phone-notch {
+  width: 120px; height: 28px;
+  background: var(--bg);
+  border-radius: 0 0 16px 16px;
+  margin: 0 auto;
+}
+.phone-header {
+  padding: 12px 20px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+.phone-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: white;
+}
+.phone-name { font-size: 14px; font-weight: 600; }
+.phone-status { font-size: 11px; color: var(--accent); }
+.phone-chat {
+  padding: 16px 16px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+  min-height: 280px;
+}
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0;
+  animation: msg-in 0.4s ease forwards;
+}
+.msg-user {
+  background: var(--accent);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.msg-bot {
+  background: var(--border-light);
+  color: var(--text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.msg:nth-child(1) { animation-delay: 0.5s; }
+.msg:nth-child(2) { animation-delay: 1.4s; }
+.msg:nth-child(3) { animation-delay: 2.6s; }
+.msg:nth-child(4) { animation-delay: 3.6s; }
+.msg:nth-child(5) { animation-delay: 4.8s; }
+@keyframes msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* PAIN */
+.pain {
+  background: var(--bg-dark);
+  color: white;
+}
+.pain .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.pain-label {
+  font-size: 13px; font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+.pain h2 {
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.pain p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+}
+.pain-cards {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.pain-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.pain-icon {
+  width: 40px; height: 40px;
+  background: rgba(239, 68, 68, 0.15);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  color: #EF4444;
+}
+.pain-card h4 {
+  font-size: 15px; font-weight: 600; margin-bottom: 4px;
+  color: white;
+}
+.pain-card p {
+  font-size: 13px; color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+}
+
+/* FEATURES */
+.section-label {
+  font-size: 13px; font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 56px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: all 0.3s ease;
+}
+.feature-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+}
+.feature-icon {
+  width: 48px; height: 48px;
+  background: var(--bg-accent);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.feature-card h3 {
+  font-size: 17px; font-weight: 600;
+  margin-bottom: 8px;
+}
+.feature-card p {
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* STEPS */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+}
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 36px; left: 15%; right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--border), var(--accent));
+  z-index: 0;
+}
+.step {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.step-num {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700;
+  font-family: var(--mono);
+  color: var(--accent);
+  margin: 0 auto 20px;
+}
+.step h3 {
+  font-size: 17px; font-weight: 600;
+  margin-bottom: 8px;
+}
+.step p {
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* DEMO */
+.demo {
+  background: var(--border-light);
+  color: var(--text);
+  text-align: center;
+}
+.demo .section-label { color: var(--accent); }
+.demo .section-title { color: var(--text); }
+.demo .section-sub {
+  color: var(--text-secondary);
+  margin: 0 auto 48px;
+}
+.demo-window {
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+}
+.demo-bar {
+  padding: 12px 20px;
+  background: var(--border-light);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.demo-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.demo-dot:nth-child(1) { background: #EF4444; }
+.demo-dot:nth-child(2) { background: #F59E0B; }
+.demo-dot:nth-child(3) { background: #22C55E; }
+.demo-body {
+  padding: 40px;
+  min-height: 300px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 20px;
+}
+.demo-placeholder-icon {
+  width: 64px; height: 64px;
+  background: var(--bg-accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+}
+.demo-body p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 400px;
+  line-height: 1.6;
+}
+.demo-body .btn-primary { margin-top: 8px; }
+
+/* CALC */
+.calc-wrapper {
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+}
+.calc-row {
+  margin-bottom: 28px;
+}
+.calc-row label {
+  display: block;
+  font-size: 14px; font-weight: 500;
+  margin-bottom: 10px;
+}
+.calc-row input[type=range] {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 6px;
+}
+.calc-row-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 10px;
+}
+.calc-value {
+  font-size: 16px; font-weight: 600;
+  font-family: var(--mono);
+  color: var(--accent-dark);
+}
+.calc-result {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 2px solid var(--border);
+  text-align: center;
+}
+.calc-result-label {
+  font-size: 14px; color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.calc-result-value {
+  font-size: 42px; font-weight: 700;
+  font-family: var(--mono);
+  color: var(--accent-dark);
+}
+.calc-result-sub {
+  font-size: 13px; color: var(--text-light);
+  margin-top: 8px;
+}
+
+/* PRICING */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.price-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  position: relative;
+  transition: all 0.3s;
+}
+.price-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.price-badge {
+  position: absolute;
+  top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--accent);
+  color: white;
+  font-size: 12px; font-weight: 600;
+  padding: 4px 16px;
+  border-radius: 100px;
+}
+.price-name {
+  font-size: 18px; font-weight: 600;
+  margin-bottom: 8px;
+}
+.price-amount {
+  font-size: 40px; font-weight: 700;
+  font-family: var(--mono);
+  margin-bottom: 4px;
+}
+.price-amount span { font-size: 16px; font-weight: 400; color: var(--text-secondary); }
+.price-desc {
+  font-size: 14px; color: var(--text-secondary);
+  margin-bottom: 24px; line-height: 1.5;
+}
+.price-features {
+  list-style: none;
+  margin-bottom: 28px;
+}
+.price-features li {
+  padding: 8px 0;
+  font-size: 14px;
+  display: flex; align-items: center; gap: 10px;
+  color: var(--text-secondary);
+}
+.price-features li::before {
+  content: '';
+  width: 18px; height: 18px;
+  background: var(--bg-accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2322C55E' viewBox='0 0 16 16'%3E%3Cpath d='M13.485 3.515a1.25 1.25 0 010 1.77L7.06 11.71a1.25 1.25 0 01-1.77 0L2.515 8.935a1.25 1.25 0 011.77-1.77L6.175 9.06l5.54-5.545a1.25 1.25 0 011.77 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* FAQ */
+.faq-list {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-q {
+  width: 100%;
+  padding: 24px 0;
+  background: none; border: none;
+  font-family: var(--font);
+  font-size: 16px; font-weight: 600;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.faq-q::after {
+  content: '+';
+  font-size: 22px; font-weight: 400;
+  color: var(--text-light);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-q::after {
+  transform: rotate(45deg);
+  color: var(--accent);
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+}
+.faq-item.open .faq-a {
+  max-height: 300px;
+  padding-bottom: 24px;
+}
+.faq-a p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* FINAL CTA */
+.final-cta {
+  text-align: center;
+  background: linear-gradient(180deg, var(--bg) 0%, #ecfdf5 100%);
+}
+.final-cta h2 {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.final-cta p {
+  font-size: 17px; color: var(--text-secondary);
+  margin-bottom: 36px;
+  max-width: 480px; margin-left: auto; margin-right: auto;
+  line-height: 1.7;
+}
+.final-cta .guarantees {
+  display: flex; gap: 32px;
+  justify-content: center;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.guarantee {
+  font-size: 13px; color: var(--text-secondary);
+  display: flex; align-items: center; gap: 6px;
+}
+.guarantee svg { color: var(--accent); flex-shrink: 0; }
+
+/* FOOTER */
+footer {
+  padding: 40px 24px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+footer p {
+  font-size: 13px; color: var(--text-light);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hero-grid, .pain .container { grid-template-columns: 1fr; gap: 40px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+  .steps-grid::before { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+  .hero-stats { gap: 24px; }
+  .nav-links { display: none; }
+  .phone-mockup { width: 280px; }
+  section { padding: 72px 20px; }
+  .hero { padding: 120px 20px 72px; }
+  .calc-wrapper { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-dot"></span>
+      Записали
+    </a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Возможности</a>
+      <a href="#demo" class="nav-link">Демо</a>
+      <a href="#pricing" class="nav-link">Тарифы</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="#start" class="nav-cta">Попробовать бесплатно</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Ранний доступ — бесплатная настройка
+        </div>
+        <h1>Ваш бизнес <span class="highlight">не теряет клиентов</span>, даже когда вы заняты</h1>
+        <p class="hero-sub">ИИ-бот в Telegram и на вашем сайте. Отвечает клиентам, записывает на приём, напоминает о визите. 24/7 без выходных и зарплаты.</p>
+        <div class="hero-actions">
+          <a href="#start" class="btn-primary">
+            Попробовать бесплатно
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#demo" class="btn-secondary">Посмотреть демо</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">24/7</div>
+            <div class="hero-stat-label">всегда на связи</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">&lt;3с</div>
+            <div class="hero-stat-label">время ответа</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">152-ФЗ</div>
+            <div class="hero-stat-label">соответствует закону</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="phone-mockup">
+          <div class="phone-notch"></div>
+          <div class="phone-header">
+            <div class="phone-avatar">З</div>
+            <div>
+              <div class="phone-name">Записали</div>
+              <div class="phone-status">онлайн</div>
+            </div>
+          </div>
+          <div class="phone-chat">
+            <div class="msg msg-user">Здравствуйте, сколько стоит замена масла?</div>
+            <div class="msg msg-bot">Добрый день! Замена масла — от 1 200 ₽ (с фильтром — 1 800 ₽). Хотите записаться? Ближайшее свободное время — завтра в 10:00.</div>
+            <div class="msg msg-user">Да, запишите на завтра</div>
+            <div class="msg msg-bot">Записали вас на завтра, 24 марта, в 10:00. Напомню за 2 часа до визита. До встречи!</div>
+            <div class="msg msg-user">Спасибо!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section class="pain">
+  <div class="container">
+    <div>
+      <div class="pain-label">Проблема</div>
+      <h2>Пока вы под машиной, клиент звонит. Не дождался — ушёл к конкуренту.</h2>
+      <p style="margin-top: 16px;">Каждый пропущенный звонок — это потерянные деньги. Средний автосервис теряет до 30% обращений в нерабочее время и в часы пиковой загрузки.</p>
+    </div>
+    <div class="pain-cards">
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.05 5A5 5 0 0119 8.95M15.05 1A9 9 0 0123 8.94m-1 7.98v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div>
+          <h4>Пропущенные звонки</h4>
+          <p>Клиент звонит — вы заняты, вечер, выходной. Он не ждёт — звонит в другой сервис.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div>
+          <h4>Администратор стоит дорого</h4>
+          <p>Зарплата, отпуск, больничные. А ещё он не работает ночью и часто забывает перезвонить.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <div>
+          <h4>Хаос в записях</h4>
+          <p>Бумажки, блокноты, переписки. Клиент не пришёл — а вы даже не помните, что его записывали.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Решение</div>
+    <h2 class="section-title">Один бот вместо администратора</h2>
+    <p class="section-sub">Записали — это ИИ, который понимает вопросы клиентов, отвечает по вашему прайсу и записывает на свободное время. Без скриптов и кнопок — живой диалог.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" stroke="#22C55E" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <h3>Отвечает как человек</h3>
+        <p>Понимает текст и голосовые. Отвечает по вашему прайсу, знает расписание, помнит контекст разговора.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" stroke="#22C55E" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Записывает на приём</h3>
+        <p>Показывает свободные слоты, бронирует время, отправляет подтверждение. Вы получаете уведомление.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" stroke="#22C55E" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <h3>Напоминает о визите</h3>
+        <p>Автоматическое напоминание за 24 часа и за 2 часа до приёма. Меньше «не пришёл» — больше денег.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" stroke="#22C55E" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Виджет на ваш сайт</h3>
+        <p>Одна строка кода — и чат появляется на вашем сайте. Клиенты пишут прямо оттуда.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" stroke="#22C55E" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Соответствует 152-ФЗ</h3>
+        <p>Персональные данные клиентов не передаются в ИИ. Используется система алиасов, есть аудит согласий.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" stroke="#22C55E" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+        </div>
+        <h3>Панель управления</h3>
+        <p>Все записи, клиенты, прайс — в одном месте. Редактируйте расписание и цены, бот подхватит автоматически.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section style="background: var(--border-light);">
+  <div class="container" style="text-align: center;">
+    <div class="section-label">Как это работает</div>
+    <h2 class="section-title" style="margin-left:auto;margin-right:auto;">Три шага — и бот работает</h2>
+    <p class="section-sub" style="margin: 0 auto 56px;">Мы всё настроим за вас. Бесплатно.</p>
+
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Вы оставляете заявку</h3>
+        <p>Расскажите о вашем бизнесе: прайс, расписание, адрес. Можно просто скинуть файлы.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Мы настраиваем бота</h3>
+        <p>Загружаем ваши данные, обучаем ИИ, подключаем Telegram и виджет. Обычно за 1 день.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Бот принимает клиентов</h3>
+        <p>Клиенты пишут — бот отвечает и записывает. Вы получаете уведомления о каждой записи.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo" id="demo">
+  <div class="container">
+    <div class="section-label">Попробуйте прямо сейчас</div>
+    <h2 class="section-title">Поговорите с ботом</h2>
+    <p class="section-sub">Это демо-бот для тестового автосервиса. Спросите про цены, услуги или запишитесь на приём.</p>
+
+    <div class="demo-window">
+      <div class="demo-bar">
+        <span class="demo-dot"></span>
+        <span class="demo-dot"></span>
+        <span class="demo-dot"></span>
+      </div>
+      <div class="demo-body" style="padding: 0; min-height: 500px; position: relative;">
+      </div>
+    </div>
+    <script src="https://n8n57362.hostkey.in/webhook/de26595b-cb57-4110-8eaf-04bcd303011a/wgt-loader/bot2" defer></script>
+  </div>
+</section>
+
+<!-- CALC -->
+<section id="calc">
+  <div class="container" style="text-align:center;">
+    <div class="section-label">Калькулятор</div>
+    <h2 class="section-title">Сколько вы теряете без бота?</h2>
+    <p class="section-sub" style="margin:0 auto 48px;">Подставьте свои цифры — калькулятор посчитает потери.</p>
+
+    <div class="calc-wrapper" style="text-align:left;">
+      <div class="calc-row">
+        <div class="calc-row-header">
+          <label>Обращений в день</label>
+          <span class="calc-value" id="calc-calls">15</span>
+        </div>
+        <input type="range" min="5" max="50" value="15" id="range-calls">
+      </div>
+      <div class="calc-row">
+        <div class="calc-row-header">
+          <label>Из них пропускаете, %</label>
+          <span class="calc-value" id="calc-miss">30%</span>
+        </div>
+        <input type="range" min="5" max="70" value="30" id="range-miss">
+      </div>
+      <div class="calc-row">
+        <div class="calc-row-header">
+          <label>Средний чек, ₽</label>
+          <span class="calc-value" id="calc-check">3 000 ₽</span>
+        </div>
+        <input type="range" min="500" max="15000" step="500" value="3000" id="range-check">
+      </div>
+      <div class="calc-result">
+        <div class="calc-result-label">Вы теряете в месяц примерно</div>
+        <div class="calc-result-value" id="calc-total">405 000 ₽</div>
+        <div class="calc-result-sub">Бот стоит от 3 990 ₽/мес — окупается с первого клиента</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background: var(--border-light);">
+  <div class="container" style="text-align:center;">
+    <div class="section-label">Тарифы</div>
+    <h2 class="section-title">Простые и честные цены</h2>
+    <p class="section-sub" style="margin:0 auto 48px;">14 дней бесплатно. Настройка под ключ — в подарок.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Старт</div>
+        <div class="price-amount">3 990 <span>₽/мес</span></div>
+        <div class="price-desc">Один канал, знакомство с продуктом</div>
+        <ul class="price-features">
+          <li>Telegram-бот с ИИ</li>
+          <li>Ответы по прайсу и FAQ</li>
+          <li>Запись на приём</li>
+          <li>Напоминания клиентам</li>
+          <li>Уведомления владельцу</li>
+          <li>До 300 сообщений/мес</li>
+        </ul>
+        <a href="#start" class="btn-primary" style="width:100%;justify-content:center;">Попробовать 14 дней бесплатно</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">Лучший выбор</div>
+        <div class="price-name">Бизнес</div>
+        <div class="price-amount">5 990 <span>₽/мес</span></div>
+        <div class="price-desc">Все каналы + безлимит сообщений</div>
+        <ul class="price-features">
+          <li>Всё из тарифа Старт</li>
+          <li>Виджет на сайт</li>
+          <li>Голосовые сообщения</li>
+          <li>Интеграция с Авито</li>
+          <li>Панель управления</li>
+          <li>Безлимит сообщений</li>
+        </ul>
+        <a href="#start" class="btn-primary" style="width:100%;justify-content:center;">Попробовать 14 дней бесплатно</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-name">Премиум</div>
+        <div class="price-amount">11 990 <span>₽/мес</span></div>
+        <div class="price-desc">CRM, MAX и приоритетная поддержка</div>
+        <ul class="price-features">
+          <li>Всё из тарифа Бизнес</li>
+          <li>Интеграция с MAX</li>
+          <li>Интеграция с CRM (amoCRM, Битрикс24)</li>
+          <li>Кастомная настройка ИИ</li>
+          <li>Аналитика и отчёты</li>
+          <li>Приоритетная поддержка</li>
+        </ul>
+        <a href="#start" class="btn-primary" style="width:100%;justify-content:center;">Попробовать 14 дней бесплатно</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div style="text-align:center;">
+      <div class="section-label">Вопросы</div>
+      <h2 class="section-title">Часто спрашивают</h2>
+      <p class="section-sub" style="margin:0 auto 48px;">Если не нашли ответ — напишите нам, ответим лично.</p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">А если бот ответит неправильно?</button>
+        <div class="faq-a"><p>Бот отвечает только на основе ваших данных — прайса, расписания, FAQ. Он не выдумывает. Если вопрос выходит за рамки — бот честно скажет: «Лучше уточните у мастера» и предложит связаться с вами напрямую.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Это безопасно? Как насчёт персональных данных?</button>
+        <div class="faq-a"><p>Система соответствует 152-ФЗ. Персональные данные клиентов (имена, телефоны) не передаются в ИИ — вместо них используются анонимные алиасы. Все согласия фиксируются в журнале аудита.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Что если клиент хочет поговорить с живым человеком?</button>
+        <div class="faq-a"><p>Бот может перенаправить клиента к вам — отправить уведомление в Telegram с контактами клиента. Вы сами решаете, когда подключиться к разговору.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Сколько времени занимает настройка?</button>
+        <div class="faq-a"><p>Обычно 1 рабочий день. Вы присылаете прайс, расписание и базовую информацию — мы делаем всё остальное. Настройка бесплатна на любом тарифе.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Подходит только для автосервисов?</button>
+        <div class="faq-a"><p>Сейчас мы специализируемся на автосервисах — бот лучше всего работает с прайсами на услуги и записью на приём. Но система подходит для любого бизнеса с записью: барбершопы, клиники, салоны красоты.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Что будет после 14-дневного триала?</button>
+        <div class="faq-a"><p>Ничего неожиданного. Мы напомним за 3 дня до окончания. Если решите не продолжать — бот просто остановится, никаких списаний. Если понравится — выберете тариф и оплатите.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="start">
+  <div class="container">
+    <h2>Записали?<br><span style="color:var(--accent);">Записали.</span></h2>
+    <p>Подключите бесплатно за 5 минут. Мы настроим всё под ваш бизнес — без доплат.</p>
+    <a href="#" class="btn-primary" style="font-size:18px;padding:18px 44px;">
+      Начать бесплатно
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <div class="guarantees">
+      <div class="guarantee">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        14 дней бесплатно
+      </div>
+      <div class="guarantee">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        Настройка под ключ в подарок
+      </div>
+      <div class="guarantee">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        Без привязки карты
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Записали. ИИ-бот для записи клиентов.</p>
+  </div>
+</footer>
+
+<script>
+// FAQ toggle
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// Calculator
+const rangeCalls = document.getElementById('range-calls');
+const rangeMiss = document.getElementById('range-miss');
+const rangeCheck = document.getElementById('range-check');
+
+function updateCalc() {
+  const calls = parseInt(rangeCalls.value);
+  const miss = parseInt(rangeMiss.value);
+  const check = parseInt(rangeCheck.value);
+  
+  document.getElementById('calc-calls').textContent = calls;
+  document.getElementById('calc-miss').textContent = miss + '%';
+  document.getElementById('calc-check').textContent = check.toLocaleString('ru-RU') + ' ₽';
+  
+  const lost = Math.round(calls * (miss / 100) * check * 30);
+  document.getElementById('calc-total').textContent = lost.toLocaleString('ru-RU') + ' ₽';
+}
+
+rangeCalls.addEventListener('input', updateCalc);
+rangeMiss.addEventListener('input', updateCalc);
+rangeCheck.addEventListener('input', updateCalc);
+updateCalc();
+
+// Smooth nav background on scroll
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) {
+    nav.style.background = 'rgba(250, 250, 248, 0.95)';
+    nav.style.borderBottomColor = '#E5E7EB';
+  } else {
+    nav.style.background = 'rgba(250, 250, 248, 0.85)';
+    nav.style.borderBottomColor = '#F3F4F6';
+  }
+});
+
+// Animate on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .step, .pain-card, .price-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
