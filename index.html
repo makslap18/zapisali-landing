@@ -1032,7 +1032,7 @@ footer p {
           <label>Обращений в день</label>
           <span class="calc-value" id="calc-calls">10</span>
         </div>
-        <input type="range" min="2" max="40" value="10" id="range-calls">
+        <input type="range" min="5" max="40" value="10" id="range-calls">
       </div>
       <div class="calc-row">
         <div class="calc-row-header">
@@ -1047,13 +1047,6 @@ footer p {
           <span class="calc-value" id="calc-check">3 000 &#8381;</span>
         </div>
         <input type="range" min="2000" max="15000" step="500" value="3000" id="range-check">
-      </div>
-      <div class="calc-row">
-        <div class="calc-row-header">
-          <label>Конверсия обращений в заказ, %</label>
-          <span class="calc-value" id="calc-conv">30%</span>
-        </div>
-        <input type="range" min="10" max="60" value="30" id="range-conv">
       </div>
       <div class="calc-result">
         <div class="calc-result-label">Бот может дополнительно приносить в месяц</div>
@@ -1204,32 +1197,27 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   });
 });
 
-// Calculator with conversion rate
+// Calculator (conversion hardcoded at 30%)
 const rangeCalls = document.getElementById('range-calls');
 const rangeMiss = document.getElementById('range-miss');
 const rangeCheck = document.getElementById('range-check');
-const rangeConv = document.getElementById('range-conv');
 
 function updateCalc() {
   const calls = parseInt(rangeCalls.value);
   const miss = parseInt(rangeMiss.value);
   const check = parseInt(rangeCheck.value);
-  const conv = parseInt(rangeConv.value);
 
   document.getElementById('calc-calls').textContent = calls;
   document.getElementById('calc-miss').textContent = miss + '%';
   document.getElementById('calc-check').textContent = check.toLocaleString('ru-RU') + ' \u20BD';
-  document.getElementById('calc-conv').textContent = conv + '%';
 
-  // Formula: unanswered messages * conversion * check * 30 days
-  const additional = Math.round(calls * (miss / 100) * (conv / 100) * check * 30);
+  const additional = Math.round(calls * (miss / 100) * 0.3 * check * 30);
   document.getElementById('calc-total').textContent = additional.toLocaleString('ru-RU') + ' \u20BD';
 }
 
 rangeCalls.addEventListener('input', updateCalc);
 rangeMiss.addEventListener('input', updateCalc);
 rangeCheck.addEventListener('input', updateCalc);
-rangeConv.addEventListener('input', updateCalc);
 updateCalc();
 
 // Smooth nav background on scroll
