@@ -5,6 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Записали — ИИ-бот, который ответит и запишет за вас</title>
 <meta name="description" content="ИИ-помощник для вашего бизнеса. Отвечает клиентам в Telegram и на сайте, записывает на приём, напоминает о визите. 24/7 без выходных.">
+<meta name="keywords" content="ИИ бот автосервис, телеграм бот для бизнеса, запись на приём бот, чат-бот автосервис, AI помощник, виджет на сайт, CRM автосервис">
+<meta name="author" content="Записали">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://makslap18.github.io/zapisali-landing/">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://makslap18.github.io/zapisali-landing/">
+<meta property="og:title" content="Записали — ИИ-бот, который ответит и запишет за вас">
+<meta property="og:description" content="ИИ-помощник в Telegram и на сайте. Отвечает клиентам, записывает на приём, напоминает о визите. 24/7 без выходных. 14 дней бесплатно.">
+<meta property="og:image" content="https://makslap18.github.io/zapisali-landing/og-image.png">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Записали">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Записали — ИИ-бот, который ответит и запишет за вас">
+<meta name="twitter:description" content="ИИ-помощник для бизнеса. Отвечает клиентам 24/7, записывает на приём, напоминает о визите.">
+<meta name="twitter:image" content="https://makslap18.github.io/zapisali-landing/og-image.png">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Записали",
+  "description": "ИИ-помощник для бизнеса. Отвечает клиентам в Telegram и на сайте, записывает на приём, напоминает о визите.",
+  "url": "https://makslap18.github.io/zapisali-landing/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "3990",
+    "highPrice": "11990",
+    "priceCurrency": "RUB",
+    "offerCount": "3"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Записали"
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -719,6 +766,102 @@ section { padding: 64px 24px; }
 }
 .guarantee svg { color: var(--accent); flex-shrink: 0; }
 
+/* LEAD FORM + CTA */
+.cta-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.lead-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 320px;
+  text-align: left;
+}
+.lead-form-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.lead-form input {
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-family: var(--font);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.lead-form input:focus {
+  border-color: var(--accent);
+}
+.lead-form-btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: 4px;
+}
+.lead-form-status {
+  font-size: 14px;
+  text-align: center;
+  min-height: 20px;
+}
+.lead-form-status.success { color: var(--accent-dark); }
+.lead-form-status.error { color: #EF4444; }
+
+.cta-divider {
+  display: flex;
+  align-items: center;
+  color: var(--text-light);
+  font-size: 14px;
+}
+.cta-divider span {
+  padding: 12px 0;
+}
+
+.cta-telegram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.cta-telegram-text {
+  font-size: 16px;
+  font-weight: 600;
+}
+.btn-telegram {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #2AABEE;
+  color: white;
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s;
+  font-family: var(--font);
+}
+.btn-telegram:hover {
+  background: #229ED9;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(42, 171, 238, 0.3);
+}
+
+@media (max-width: 768px) {
+  .cta-options { flex-direction: column; gap: 20px; }
+  .lead-form { width: 100%; max-width: 360px; }
+  .cta-divider span { padding: 0 12px; }
+}
+
 /* FOOTER */
 footer {
   padding: 32px 24px;
@@ -765,6 +908,29 @@ footer p {
   .hero-stats > div { display: flex; align-items: baseline; gap: 8px; }
 }
 </style>
+
+<!-- Yandex.Metrika — замените XXXXXXXX на ID счётчика -->
+<!--
+<script type="text/javascript">
+(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();
+for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r)return;}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+ym(XXXXXXXX, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/XXXXXXXX" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+-->
+
+<!-- Google Analytics — замените G-XXXXXXXXXX на ID -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
+</script>
+-->
+
 </head>
 <body>
 
@@ -1157,10 +1323,34 @@ footer p {
   <div class="container">
     <h2>Записали?<br><span style="color:var(--accent);">Записали.</span></h2>
     <p>Подключите бесплатно. Мы настроим всё под ваш бизнес — без доплат.</p>
-    <a href="#" class="btn-primary" style="font-size:18px;padding:18px 44px;">
-      Начать бесплатно
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
+
+    <div class="cta-options">
+      <!-- Lead Form -->
+      <form class="lead-form" id="leadForm" onsubmit="return submitLead(event)">
+        <div class="lead-form-title">Оставить заявку</div>
+        <input type="text" name="name" placeholder="Ваше имя" required autocomplete="name">
+        <input type="tel" name="phone" placeholder="Телефон" required autocomplete="tel">
+        <button type="submit" class="btn-primary lead-form-btn">
+          Отправить заявку
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <div class="lead-form-status" id="formStatus"></div>
+      </form>
+
+      <div class="cta-divider">
+        <span>или</span>
+      </div>
+
+      <!-- Telegram Button -->
+      <div class="cta-telegram">
+        <div class="cta-telegram-text">Напишите нам напрямую</div>
+        <a href="https://t.me/maksicrypto?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B8%D1%82%D1%8C%20%D0%B1%D0%BE%D1%82%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D0%B0%D0%B2%D1%82%D0%BE%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D0%B0" class="btn-telegram" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Написать в Telegram
+        </a>
+      </div>
+    </div>
+
     <div class="guarantees">
       <div class="guarantee">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
@@ -1186,6 +1376,43 @@ footer p {
 </footer>
 
 <script>
+// Lead form submission
+async function submitLead(e) {
+  e.preventDefault();
+  const form = e.target;
+  const status = document.getElementById('formStatus');
+  const btn = form.querySelector('button[type="submit"]');
+  const name = form.name.value.trim();
+  const phone = form.phone.value.trim();
+
+  btn.disabled = true;
+  btn.textContent = 'Отправка...';
+  status.textContent = '';
+  status.className = 'lead-form-status';
+
+  try {
+    const res = await fetch('https://n8n57362.hostkey.in/webhook/4ohPRBwYploC2Ugm/webhook/lead-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone })
+    });
+    if (res.ok) {
+      status.textContent = 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.';
+      status.className = 'lead-form-status success';
+      form.reset();
+    } else {
+      throw new Error('Server error');
+    }
+  } catch (err) {
+    status.textContent = 'Ошибка отправки. Попробуйте написать нам в Telegram.';
+    status.className = 'lead-form-status error';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Отправить заявку <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  }
+  return false;
+}
+
 // FAQ toggle
 document.querySelectorAll('.faq-q').forEach(btn => {
   btn.addEventListener('click', () => {
