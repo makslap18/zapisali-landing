@@ -1174,12 +1174,39 @@ gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
         </div>
         <div class="demo-widget-panel">
           <iframe
+            id="asw-frame"
             src="https://n8n57362.hostkey.in/webhook/8c582cff-dac2-4375-86e4-75f762cebf6c/wgt-frame/bot1"
             allow="microphone"
             loading="lazy"
             title="Демо чат-бот"
           ></iframe>
         </div>
+        <script>
+        /* postMessage bridge — iframe stores session via parent's localStorage */
+        (function(){
+          window.addEventListener('message', function(e) {
+            if (e.origin !== 'https://n8n57362.hostkey.in') return;
+            if (e.data && e.data.type === 'asw-set') {
+              try { localStorage.setItem(e.data.key, e.data.value); } catch(x) {}
+              return;
+            }
+            if (e.data && e.data.type === 'asw-init') {
+              var pfx = e.data.prefix; var res = {};
+              try {
+                for (var i = 0; i < localStorage.length; i++) {
+                  var k = localStorage.key(i);
+                  if (k.indexOf(pfx) === 0) res[k] = localStorage.getItem(k);
+                }
+              } catch(x) {}
+              var fr = document.getElementById('asw-frame');
+              if (fr && fr.contentWindow) {
+                fr.contentWindow.postMessage({type:'asw-init-data', data: res}, 'https://n8n57362.hostkey.in');
+              }
+              return;
+            }
+          });
+        })();
+        </script>
       </div>
     </div>
   </div>
