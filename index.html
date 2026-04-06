@@ -1185,12 +1185,12 @@ gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
         /* postMessage bridge — iframe stores session via parent's localStorage */
         (function(){
           window.addEventListener('message', function(e) {
-            if (e.origin !== 'https://n8n57362.hostkey.in') return;
-            if (e.data && e.data.type === 'asw-set') {
+            if (!e.data || typeof e.data !== 'object') return;
+            if (e.data.type === 'asw-set' && e.data.key && typeof e.data.key === 'string' && e.data.key.indexOf('asw_') === 0) {
               try { localStorage.setItem(e.data.key, e.data.value); } catch(x) {}
               return;
             }
-            if (e.data && e.data.type === 'asw-init') {
+            if (e.data.type === 'asw-init' && e.data.prefix) {
               var pfx = e.data.prefix; var res = {};
               try {
                 for (var i = 0; i < localStorage.length; i++) {
@@ -1200,7 +1200,7 @@ gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
               } catch(x) {}
               var fr = document.getElementById('asw-frame');
               if (fr && fr.contentWindow) {
-                fr.contentWindow.postMessage({type:'asw-init-data', data: res}, 'https://n8n57362.hostkey.in');
+                fr.contentWindow.postMessage({type:'asw-init-data', data: res}, '*');
               }
               return;
             }
