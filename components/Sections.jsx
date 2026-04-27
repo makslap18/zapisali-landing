@@ -229,11 +229,11 @@ function LeadForm({ accent = '#229ED9', theme = 'light' }) {
     if (busy) return;
     setBusy(true); setErr('');
     try {
-      // Сетевая ошибка → catch. Любой ответ (даже не-2xx) считаем успехом —
-      // n8n иногда отвечает не-200, а заявка при этом обработана.
+      // Без Content-Type, чтобы не триггерить CORS preflight (n8n
+      // на OPTIONS не отвечает CORS-заголовками). Body остаётся JSON-строкой —
+      // n8n умеет её распарсить из raw body.
       await fetch('https://n8n57362.hostkey.in/webhook/4ohPRBwYploC2Ugm/webhook/lead-form', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, phone, biz }),
       });
       setSent(true);
