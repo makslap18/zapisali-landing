@@ -23,20 +23,11 @@ function useAnimatedNumber(target, deps = []) {
 }
 
 // ─── Calculator ────────────────────────────────────────────────
-function Calculator({ accent = '#229ED9', theme = 'light' }) {
-  const [perDay, setPerDay] = React.useState(10);
-  const [lostPct, setLostPct] = React.useState(20);
-  const [check, setCheck] = React.useState(3000);
-  // Конверсия 30% — бот возвращает в кассу 30% потерянных обращений
-  const monthly = Math.round(perDay * (lostPct / 100) * 0.3 * check * 30);
-  const animated = useAnimatedNumber(monthly, [monthly]);
-
-  const isDark = theme === 'dark';
-  const trackBg = isDark ? '#1a2332' : '#e9eef5';
-  const labelColor = isDark ? '#7a8a9d' : '#6b7280';
-  const valueColor = isDark ? '#e6edf5' : '#0f1620';
-
-  const Row = ({ label, value, min, max, step, onChange, unit }) => (
+// Row вынесен наружу — иначе на каждом ререндере Calculator создавался
+// новый тип компонента, React размонтировал <input>, и драг range-слайдера
+// сбрасывался после первого же шага.
+function CalcRow({ label, value, min, max, step, onChange, unit, accent, labelColor, valueColor }) {
+  return (
     <div style={{ marginBottom: 22 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
         <span style={{ fontSize: 14, color: labelColor }}>{label}</span>
@@ -46,12 +37,23 @@ function Calculator({ accent = '#229ED9', theme = 'light' }) {
       </div>
       <input type="range" min={min} max={max} step={step} value={value}
         onChange={(e) => onChange(+e.target.value)}
-        style={{
-          width: '100%', accentColor: accent, height: 4,
-        }}
+        style={{ width: '100%', accentColor: accent, height: 4 }}
       />
     </div>
   );
+}
+
+function Calculator({ accent = '#229ED9', theme = 'light' }) {
+  const [perDay, setPerDay] = React.useState(10);
+  const [lostPct, setLostPct] = React.useState(20);
+  const [check, setCheck] = React.useState(3000);
+  // Конверсия 30% — бот возвращает в кассу 30% потерянных обращений
+  const monthly = Math.round(perDay * (lostPct / 100) * 0.3 * check * 30);
+  const animated = useAnimatedNumber(monthly, [monthly]);
+
+  const isDark = theme === 'dark';
+  const labelColor = isDark ? '#7a8a9d' : '#6b7280';
+  const valueColor = isDark ? '#e6edf5' : '#0f1620';
 
   return (
     <div className="zp-calc-grid" style={{
@@ -59,9 +61,9 @@ function Calculator({ accent = '#229ED9', theme = 'light' }) {
       alignItems: 'center',
     }}>
       <div>
-        <Row label="Обращений в день" value={perDay} min={5} max={40} step={1} onChange={setPerDay} unit="" />
-        <Row label="Без ответа" value={lostPct} min={10} max={50} step={1} onChange={setLostPct} unit=" %" />
-        <Row label="Средний чек" value={check} min={2000} max={15000} step={500} onChange={setCheck} unit=" ₽" />
+        <CalcRow label="Обращений в день" value={perDay} min={5} max={40} step={1} onChange={setPerDay} unit="" accent={accent} labelColor={labelColor} valueColor={valueColor} />
+        <CalcRow label="Без ответа" value={lostPct} min={10} max={50} step={1} onChange={setLostPct} unit=" %" accent={accent} labelColor={labelColor} valueColor={valueColor} />
+        <CalcRow label="Средний чек" value={check} min={2000} max={15000} step={500} onChange={setCheck} unit=" ₽" accent={accent} labelColor={labelColor} valueColor={valueColor} />
       </div>
       <div className="zp-calc-result" style={{
         padding: '32px 28px',
