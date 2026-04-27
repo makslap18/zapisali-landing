@@ -54,7 +54,7 @@ function Calculator({ accent = '#229ED9', theme = 'light' }) {
   );
 
   return (
-    <div style={{
+    <div className="zp-calc-grid" style={{
       display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32,
       alignItems: 'center',
     }}>
@@ -63,7 +63,7 @@ function Calculator({ accent = '#229ED9', theme = 'light' }) {
         <Row label="Без ответа" value={lostPct} min={10} max={50} step={1} onChange={setLostPct} unit=" %" />
         <Row label="Средний чек" value={check} min={2000} max={15000} step={500} onChange={setCheck} unit=" ₽" />
       </div>
-      <div style={{
+      <div className="zp-calc-result" style={{
         padding: '32px 28px',
         borderRadius: 16,
         background: isDark
@@ -75,7 +75,7 @@ function Calculator({ accent = '#229ED9', theme = 'light' }) {
         <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '.08em', color: labelColor, marginBottom: 10 }}>
           Бот вернёт в кассу
         </div>
-        <div style={{ fontSize: 44, fontWeight: 700, color: valueColor, letterSpacing: '-.02em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
+        <div className="zp-calc-result-num" style={{ fontSize: 44, fontWeight: 700, color: valueColor, letterSpacing: '-.02em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
           {animated.toLocaleString('ru-RU')} ₽
         </div>
         <div style={{ fontSize: 13, color: labelColor, marginTop: 6 }}>в месяц, по вашим цифрам</div>

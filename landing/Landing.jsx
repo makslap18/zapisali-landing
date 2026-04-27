@@ -50,14 +50,17 @@ if (typeof document !== 'undefined' && !document.getElementById('zp-landing-styl
     .zp-link-muted:hover { color: ${T.ink}; }
 
     @media (max-width: 980px) {
-      .zp-container { padding: 0 24px; }
-      .zp-section { padding: 64px 0; }
-      .zp-h1 { font-size: 44px; line-height: 1.05; }
-      .zp-h2 { font-size: 34px; line-height: 1.1; }
-      .zp-lead { font-size: 17px; }
-      .zp-grid-3 { grid-template-columns: 1fr; gap: 16px; }
-      .zp-grid-2 { grid-template-columns: 1fr; gap: 24px; }
+      .zp-container { padding: 0 20px; }
+      .zp-section { padding: 56px 0; }
+      .zp-h1 { font-size: 40px; line-height: 1.05; }
+      .zp-h2 { font-size: 30px; line-height: 1.1; }
+      .zp-lead { font-size: 16px; }
+      .zp-grid-3 { grid-template-columns: 1fr !important; gap: 32px !important; }
+      .zp-grid-2 { grid-template-columns: 1fr !important; gap: 24px !important; }
       .zp-hide-mobile { display: none !important; }
+      .zp-calc-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+      .zp-calc-result { padding: 22px 18px !important; }
+      .zp-calc-result-num { font-size: 36px !important; }
     }
     @media (min-width: 981px) {
       .zp-show-mobile { display: none !important; }
@@ -195,7 +198,7 @@ function Hero() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="zp-hide-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
             <PhoneMock />
           </div>
         </div>
@@ -425,7 +428,7 @@ function Demo() {
             <p className="zp-lead">Это демо для тестового автосервиса. Спросите про цены или запишитесь на приём — бот отвечает на самом деле.</p>
           </div>
           <div className="zp-grid-2" style={{ gridTemplateColumns: '1.2fr 1fr', gap: 28 }}>
-            <FakeSitePreview />
+            <div className="zp-hide-mobile"><FakeSitePreview /></div>
             <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 24px 48px -16px rgba(15,30,60,.18), 0 0 0 1px rgba(15,30,60,.06)', background: '#fff', height: 520 }}>
               <iframe
                 src="https://n8n57362.hostkey.in/webhook/8c582cff-dac2-4375-86e4-75f762cebf6c/wgt-frame/bot1"
