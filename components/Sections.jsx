@@ -229,12 +229,13 @@ function LeadForm({ accent = '#229ED9', theme = 'light' }) {
     if (busy) return;
     setBusy(true); setErr('');
     try {
-      const res = await fetch('https://n8n57362.hostkey.in/webhook/4ohPRBwYploC2Ugm/webhook/lead-form', {
+      // Сетевая ошибка → catch. Любой ответ (даже не-2xx) считаем успехом —
+      // n8n иногда отвечает не-200, а заявка при этом обработана.
+      await fetch('https://n8n57362.hostkey.in/webhook/4ohPRBwYploC2Ugm/webhook/lead-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, phone, biz }),
       });
-      if (!res.ok) throw new Error('server');
       setSent(true);
     } catch (_) {
       setErr('Ошибка отправки. Напишите нам в Telegram.');
