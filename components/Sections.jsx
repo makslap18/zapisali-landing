@@ -82,7 +82,7 @@ function Calculator({ accent = '#229ED9', theme = 'light' }) {
         </div>
         <div style={{ fontSize: 13, color: labelColor, marginTop: 6 }}>в месяц, по вашим цифрам</div>
         <div style={{ fontSize: 12, color: labelColor, marginTop: 18, paddingTop: 14, borderTop: `1px solid ${isDark ? '#27384d' : '#e5e7eb'}` }}>
-          Тариф «Бизнес» — 5 990 ₽/мес
+          Тариф «Бизнес», 4 990 ₽/мес
         </div>
       </div>
     </div>
@@ -136,13 +136,14 @@ function PricingCard({ name, price, tagline, features, highlighted, accent, them
           </li>
         ))}
       </ul>
-      <button style={{
+      <button onClick={() => document.getElementById('start')?.scrollIntoView({ behavior: 'smooth' })} style={{
         width: '100%', padding: '13px 16px', borderRadius: 12,
         background: highlighted ? accent : 'transparent',
         color: highlighted ? '#fff' : cardFg,
         border: highlighted ? 'none' : `1px solid ${isDark ? '#27384d' : '#d6dde6'}`,
         fontWeight: 600, fontSize: 14,
-      }}>14 дней бесплатно</button>
+        cursor: 'pointer'
+      }}>Оставить заявку</button>
     </div>
   );
 }
@@ -221,7 +222,7 @@ function LeadForm({ accent = '#229ED9', theme = 'light' }) {
           color: '#fff', fontSize: 24,
         }}>✓</div>
         <div style={{ fontSize: 22, fontWeight: 600, color: fg, marginBottom: 6 }}>Заявка отправлена</div>
-        <div style={{ fontSize: 15, color: muted }}>Свяжемся в течение часа.</div>
+        <div style={{ fontSize: 15, color: muted }}>Свяжусь как только увижу.</div>
       </div>
     );
   }
@@ -250,22 +251,16 @@ function LeadForm({ accent = '#229ED9', theme = 'light' }) {
     <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <input style={inputStyle} placeholder="Как вас зовут" value={name} onChange={e => setName(e.target.value)} required />
       <input style={inputStyle} placeholder="Телефон или Telegram" value={phone} onChange={e => setPhone(e.target.value)} required />
-      <select style={inputStyle} value={biz} onChange={e => setBiz(e.target.value)} required>
-        <option value="">Тип бизнеса</option>
-        <option>Автосервис</option>
-        <option>Барбершоп</option>
-        <option>Салон красоты</option>
-        <option>Клиника</option>
-        <option>Другое</option>
-      </select>
+      <input style={inputStyle} placeholder="Название автосервиса (необязательно)" value={biz} onChange={e => setBiz(e.target.value)} />
       <button type="submit" disabled={busy} style={{
         padding: '14px', borderRadius: 12,
         background: accent, color: '#fff', fontWeight: 600, fontSize: 15,
         marginTop: 4, opacity: busy ? 0.6 : 1,
-      }}>{busy ? 'Отправка...' : 'Отправить заявку'}</button>
+        cursor: busy ? 'default' : 'pointer'
+      }}>{busy ? 'Отправка...' : 'Оставить заявку'}</button>
       {err && <div style={{ fontSize: 13, color: '#dc2626', textAlign: 'center' }}>{err}</div>}
       <div style={{ fontSize: 12, color: muted, textAlign: 'center', marginTop: 4 }}>
-        14 дней бесплатно · без привязки карты
+        2 месяца бесплатно для первых пилотов · без привязки карты
       </div>
     </form>
   );

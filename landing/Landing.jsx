@@ -74,13 +74,14 @@ function Landing() {
     <div style={{ background: T.bg, color: T.ink, minHeight: '100vh', overflowX: 'hidden' }}>
       <Nav />
       <Hero />
-      <Channels />
       <Problem />
       <Features />
       <HowItWorks />
       <Demo />
       <CalcSection />
       <Pricing />
+      <Channels />
+      <WhatChanged />
       <FAQSection />
       <FinalCTA />
       <Footer />
@@ -174,16 +175,15 @@ function Hero() {
               fontSize: 13, fontWeight: 500, marginBottom: 24
             }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: T.accent, display: 'inline-block' }} />
-              Цифровой администратор для сервисного бизнеса
+              Чат-помощник для автосервиса
             </div>
 
             <h1 className="zp-h1" style={{ marginBottom: 22 }}>
-              Первая линия<br />общения с клиентом —<br />на автопилоте.
+              Заявки не теряются,<br />пока вы заняты.
             </h1>
 
             <p className="zp-lead" style={{ marginBottom: 32 }}>
-              «Записали» отвечает быстрее администратора, разбирает типовые вопросы по прайсу
-              и доводит лёгких клиентов до записи. Сложное — отдаёт мастеру.
+              Бот-помощник отвечает клиенту в чате за 30 секунд по вашему прайсу, не выдумывает, доводит до записи. Telegram, сайт, Авито, 24/7.
             </p>
 
             <div style={{ display: 'flex', gap: 12, marginBottom: 28, flexWrap: 'wrap' }}>
@@ -192,9 +192,9 @@ function Hero() {
             </div>
 
             <div style={{ display: 'flex', gap: 28, paddingTop: 22, borderTop: `1px solid ${T.line}`, flexWrap: 'wrap' }}>
-              <Stat n="<3 сек" l="среднее время ответа" />
+              <Stat n="~30 сек" l="скорость ответа" />
               <Stat n="24/7" l="без выходных" />
-              <Stat n="152-ФЗ" l="данные не идут в ИИ" />
+              <Stat n="152-ФЗ" l="следуем закону" />
             </div>
           </div>
 
@@ -257,9 +257,9 @@ function PhoneMock() {
         <div style={{ flex: 1, padding: 14, background: '#F4F7FA', display: 'flex', flexDirection: 'column', gap: 6 }}>
           {[
           { who: 'user', t: 'Здравствуйте, сколько стоит замена масла?' },
-          { who: 'bot', t: 'Добрый день! Замена масла — от 1 200 ₽ (с фильтром — 1 800 ₽). Хотите записаться? Ближайшее свободное время — завтра в 10:00.' },
+          { who: 'bot', t: 'Добрый день! Замена масла от 1 200 ₽ (с фильтром 1 800 ₽). Хотите записаться? Ближайшее свободное время завтра в 10:00.' },
           { who: 'user', t: 'Да, запишите на завтра' },
-          { who: 'bot', t: 'Записали вас на завтра, 24 марта, в 10:00. Напомню за 2 часа до визита. До встречи!' },
+          { who: 'bot', t: 'Записали вас на завтра в 10:00. Напомню за 2 часа до визита. До встречи!' },
           { who: 'user', t: 'Спасибо!' }].
           map((m, i) =>
           <div key={i} style={{ display: 'flex', justifyContent: m.who === 'user' ? 'flex-end' : 'flex-start' }}>
@@ -287,8 +287,36 @@ function Channels() {
           Работает там, где пишут ваши клиенты
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 40, alignItems: 'center', flexWrap: 'wrap' }}>
-          {['Telegram', 'MAX', 'WhatsApp', 'Виджет на сайте', 'Авито'].map((n, i) =>
+          {['Telegram', 'WhatsApp', 'Виджет на сайте', 'Авито'].map((n, i) =>
           <div key={i} style={{ fontSize: 19, fontWeight: 500, color: T.muted, opacity: .75, letterSpacing: '-.01em' }}>{n}</div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ─── What Changed ─────────────────────────────────────────────
+function WhatChanged() {
+  const stats = [
+  { n: '78 %', t: 'клиентов выбирают того, кто ответил первым', src: 'Verse.ai, исследование на 2 500 продаж' },
+  { n: '5–10 мин', t: 'столько клиент ждёт ответ на Авито, потом пишет следующему сервису', src: 'TenChat, обзор поведения онлайн площадок' },
+  { n: '+40 %', t: 'рост обращений в авто-сегменте на Авито только за 2024 год', src: 'Forbes Russia' }];
+
+  return (
+    <section className="zp-section">
+      <div className="zp-container">
+        <div className="zp-section-head">
+          <div className="zp-kicker">Что изменилось</div>
+          <h2 className="zp-h2">Раньше клиенты звонили. Сейчас пишут.</h2>
+        </div>
+        <div className="zp-grid-3">
+          {stats.map((s, i) =>
+          <div key={i} className="zp-card" style={{ padding: 28 }}>
+              <div style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-.02em', color: T.accent, marginBottom: 12, fontVariantNumeric: 'tabular-nums' }}>{s.n}</div>
+              <div style={{ fontSize: 16, color: T.ink, lineHeight: 1.45, marginBottom: 14 }}>{s.t}</div>
+              <div style={{ fontSize: 12, color: T.muted, lineHeight: 1.5 }}>{s.src}</div>
+            </div>
           )}
         </div>
       </div>
@@ -299,16 +327,16 @@ function Channels() {
 // ─── Problem ───────────────────────────────────────────────────
 function Problem() {
   const items = [
-  { k: '01', t: 'Сообщения копятся', d: 'Клиент пишет вечером или в выходной — ответить некому. К утру он уже у конкурента.' },
-  { k: '02', t: 'Одни и те же вопросы', d: '«Сколько стоит?», «Когда есть время?» — десятки одинаковых вопросов в день.' },
-  { k: '03', t: 'Записи теряются', d: 'Блокноты, переписки, «я вам потом напишу». Клиент не пришёл — и вы не помните, что записывали.' }];
+  { k: '01', t: 'Сообщения копятся', d: 'Клиент пишет вечером или в выходной, ответить некому. К утру он уже у конкурента.' },
+  { k: '02', t: 'Одни и те же вопросы', d: '«Сколько стоит?», «Когда есть время?». Десятки одинаковых вопросов в день.' },
+  { k: '03', t: 'Записи теряются', d: 'Блокноты, переписки, «я вам потом напишу». Клиент не пришёл, и вы не помните, что записывали.' }];
 
   return (
     <section className="zp-section">
       <div className="zp-container">
         <div className="zp-section-head">
           <div className="zp-kicker">Знакомо?</div>
-          <h2 className="zp-h2">Клиенты пишут — а ответить некогда</h2>
+          <h2 className="zp-h2">Клиенты пишут, а ответить некогда</h2>
         </div>
         <div className="zp-grid-3">
           {items.map((it, i) =>
@@ -327,12 +355,10 @@ function Problem() {
 // ─── Features ─────────────────────────────────────────────────
 function Features() {
   const items = [
-  { i: '↳', t: 'Отвечает как человек', d: 'Понимает текст и голосовые. Помнит контекст, отвечает по вашему прайсу.' },
-  { i: '◷', t: 'Записывает на приём', d: 'Показывает свободные слоты, бронирует, отправляет подтверждение.' },
-  { i: '◐', t: 'Напоминает о визите', d: 'Авто-напоминания за 24 ч и 2 ч. Меньше «не пришёл» — больше денег.' },
-  { i: '◰', t: 'Виджет на сайт', d: 'Одна строка кода — и чат появляется на вашем сайте.' },
-  { i: '☖', t: 'Соответствует 152-ФЗ', d: 'Персональные данные не передаются в ИИ. Алиасы, аудит согласий.' },
-  { i: '⌘', t: 'Панель управления', d: 'Все записи, клиенты, прайс — в одном месте. Бот подхватывает.' }];
+  { i: '◷', t: 'Записывает на приём', d: 'Проверяет свободные слоты по вашему расписанию, бронирует, отправляет подтверждение. Голосовые в Telegram тоже понимает.' },
+  { i: '↳', t: 'Передаёт сложное вам', d: 'Если вопрос за рамками вашего прайса, диалог приходит в Telegram с историей чата.' },
+  { i: '◐', t: 'Напоминает о визите', d: 'Авто-напоминания за 24 часа и за 2 часа. Меньше «не пришёл», больше денег в кассе.' },
+  { i: '✓', t: 'Не выдумывает', d: 'Помощник отвечает строго по вашему прайсу, услугам и расписанию. Не сочиняет цены, не обещает несуществующее.' }];
 
   return (
     <section id="features" style={{ background: T.surface, borderTop: `1px solid ${T.line}`, borderBottom: `1px solid ${T.line}` }}>
@@ -340,8 +366,8 @@ function Features() {
         <div className="zp-container">
           <div className="zp-section-head">
             <div className="zp-kicker">Решение</div>
-            <h2 className="zp-h2" style={{ fontFamily: "Inter" }}>Бот-помощник, который всегда на связи</h2>
-            <p className="zp-lead">Без скриптов и кнопок — живой диалог, по вашим данным.</p>
+            <h2 className="zp-h2" style={{ fontFamily: "Inter" }}>Помощник, который держит вашу первую линию</h2>
+            <p className="zp-lead">Отвечает по вашим данным, доводит до записи, передаёт сложное вам.</p>
           </div>
           <div style={{ border: `1px solid ${T.line}`, borderRadius: 16, overflow: 'hidden' }}>
             <FeatureGrid items={items} />
@@ -354,19 +380,18 @@ function Features() {
 
 function FeatureGrid({ items }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0 }} className="zp-feature-grid">
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0 }} className="zp-feature-grid">
       <style>{`
-        @media (max-width: 980px) {
+        @media (max-width: 600px) {
           .zp-feature-grid { grid-template-columns: 1fr !important; }
           .zp-feature-grid > * { border-right: none !important; }
         }
-        @media (min-width: 981px) and (max-width: 1180px) {}
       `}</style>
       {items.map((it, i) =>
       <div key={i} style={{
         padding: 32,
-        borderRight: i % 3 !== 2 ? `1px solid ${T.line}` : 'none',
-        borderBottom: i < 3 ? `1px solid ${T.line}` : 'none',
+        borderRight: i % 2 !== 1 ? `1px solid ${T.line}` : 'none',
+        borderBottom: i < (items.length - 2) ? `1px solid ${T.line}` : 'none',
         background: T.surface
       }}>
           <div style={{
@@ -374,7 +399,7 @@ function FeatureGrid({ items }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 20, fontFamily: 'ui-monospace, monospace', marginBottom: 18
         }}>{it.i}</div>
-          <div style={{ fontSize: 19, fontWeight: 600, marginBottom: 8, letterSpacing: '-.015em' }}>{it.t}</div>
+          <div style={{ fontSize: 19, fontWeight: 600, marginBottom: 8, letterSpacing: '-.015em', lineHeight: 1.25 }}>{it.t}</div>
           <div style={{ fontSize: 14.5, color: T.muted, lineHeight: 1.55 }}>{it.d}</div>
         </div>
       )}
@@ -385,17 +410,17 @@ function FeatureGrid({ items }) {
 // ─── How It Works ─────────────────────────────────────────────
 function HowItWorks() {
   const steps = [
-  { n: '1', t: 'Оставляете заявку', d: 'Расскажите про бизнес — прайс, расписание, адрес. Можно скинуть файлами.' },
-  { n: '2', t: 'Мы настраиваем', d: 'Загружаем данные, обучаем ИИ, подключаем каналы. Обычно за 1 день.' },
-  { n: '3', t: 'Бот работает', d: 'Клиенты пишут — бот отвечает и записывает. Вы получаете уведомления.' }];
+  { n: '1', t: 'Оставляете заявку', d: 'Рассказываете про автосервис: прайс, расписание, адрес. Можно скинуть файлами.' },
+  { n: '2', t: 'Я настраиваю', d: 'Загружаю данные в систему, настраиваю под ваш бизнес, подключаю каналы. Обычно за 1 день.' },
+  { n: '3', t: 'Бот работает', d: 'Клиенты пишут, бот отвечает и записывает. Вы получаете уведомления.' }];
 
   return (
     <section className="zp-section">
       <div className="zp-container">
         <div className="zp-section-head">
           <div className="zp-kicker">Как это работает</div>
-          <h2 className="zp-h2">Три шага — и бот в работе</h2>
-          <p className="zp-lead">Настройка под ключ — бесплатно на любом тарифе.</p>
+          <h2 className="zp-h2">Три шага, и бот в работе</h2>
+          <p className="zp-lead">Настройка под ключ, бесплатно на любом тарифе.</p>
         </div>
         <div className="zp-grid-3" style={{ position: 'relative' }}>
           <div className="zp-hide-mobile" style={{ position: 'absolute', top: 24, left: '8%', right: '8%', height: 1, background: T.line }} />
@@ -418,6 +443,28 @@ function HowItWorks() {
 
 // ─── Demo ──────────────────────────────────────────────────────
 function Demo() {
+  const iframeRef = React.useRef(null);
+  const [copied, setCopied] = React.useState('');
+
+  const examples = [
+    'Сколько стоит развал-схождение?',
+    'Запишите меня на завтра в 18:00 на замену масла',
+    'Есть ли в наличии бампер на Kia Rio 3 красного цвета?'
+  ];
+
+  const handleClick = (text) => {
+    // 1. postMessage в iframe — виджет должен ловить asw-prefill
+    try {
+      iframeRef.current?.contentWindow?.postMessage({ type: 'asw-prefill', text }, '*');
+    } catch (_) {}
+    // 2. Fallback: копируем в clipboard, на случай если виджет ещё не поддерживает postMessage
+    try {
+      navigator.clipboard?.writeText(text);
+      setCopied(text);
+      setTimeout(() => setCopied(''), 2000);
+    } catch (_) {}
+  };
+
   return (
     <section id="demo" style={{ background: T.surface, borderTop: `1px solid ${T.line}`, borderBottom: `1px solid ${T.line}` }}>
       <div className="zp-section">
@@ -425,17 +472,42 @@ function Demo() {
           <div className="zp-section-head">
             <div className="zp-kicker">Попробуйте сейчас</div>
             <h2 className="zp-h2">Так виджет выглядит на сайте</h2>
-            <p className="zp-lead">Это демо для тестового автосервиса. Спросите про цены или запишитесь на приём — бот отвечает на самом деле.</p>
+            <p className="zp-lead">Демо для тестового автосервиса. Кликните по подсказке или напишите своё. Бот отвечает по-настоящему.</p>
           </div>
           <div className="zp-grid-2" style={{ gridTemplateColumns: '1.2fr 1fr', gap: 28 }}>
             <div className="zp-hide-mobile"><FakeSitePreview /></div>
-            <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 24px 48px -16px rgba(15,30,60,.18), 0 0 0 1px rgba(15,30,60,.06)', background: '#fff', height: 520 }}>
-              <iframe
-                src="https://n8n57362.hostkey.in/webhook/8c582cff-dac2-4375-86e4-75f762cebf6c/wgt-frame/bot1"
-                style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-                allow="microphone"
-                title="Демо чат-бот"
-              />
+            <div>
+              <div style={{ marginBottom: 14, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ fontSize: 13, color: T.muted, marginBottom: 2 }}>Спросите бота, как клиент:</div>
+                {examples.map((ex, i) =>
+                <button key={i} onClick={() => handleClick(ex)} style={{
+                  textAlign: 'left',
+                  padding: '10px 14px',
+                  borderRadius: 12,
+                  border: `1px solid ${T.line}`,
+                  background: copied === ex ? T.accentSoft : T.bg,
+                  color: T.ink,
+                  fontSize: 14,
+                  lineHeight: 1.4,
+                  transition: 'background .12s, transform .08s',
+                  cursor: 'pointer'
+                }}>
+                    <span style={{ color: T.accent, marginRight: 6 }}>→</span>
+                    {ex}
+                    {copied === ex &&
+                  <span style={{ marginLeft: 8, fontSize: 12, color: T.accent }}>скопировано</span>}
+                  </button>
+                )}
+              </div>
+              <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 24px 48px -16px rgba(15,30,60,.18), 0 0 0 1px rgba(15,30,60,.06)', background: '#fff', height: 520 }}>
+                <iframe
+                  ref={iframeRef}
+                  src="https://n8n57362.hostkey.in/webhook/8c582cff-dac2-4375-86e4-75f762cebf6c/wgt-frame/bot1"
+                  style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+                  allow="microphone"
+                  title="Демо чат-бот"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -481,7 +553,7 @@ function CalcSection() {
         <div className="zp-section-head">
           <div className="zp-kicker">Калькулятор</div>
           <h2 className="zp-h2">Сколько приносит быстрый ответ</h2>
-          <p className="zp-lead">Подставьте свои цифры — посчитаем дополнительную выручку.</p>
+          <p className="zp-lead">Подставьте свои цифры, посчитаем дополнительную выручку.</p>
         </div>
         <div className="zp-card" style={{ padding: 36, borderRadius: 18 }}>
           <Calculator accent={T.accent} theme="light" />
@@ -499,19 +571,29 @@ function Pricing() {
         <div className="zp-container">
           <div className="zp-section-head">
             <div className="zp-kicker">Тарифы</div>
-            <h2 className="zp-h2">Простые и честные цены</h2>
-            <p className="zp-lead">14 дней бесплатно. Настройка под ключ — в подарок на любом тарифе.</p>
+            <h2 className="zp-h2">Два тарифа. Без сюрпризов.</h2>
+            <p className="zp-lead">Запись на приём, эскалация владельцу и напоминания работают на обоих тарифах.</p>
           </div>
-          <div className="zp-grid-3" style={{ gap: 20 }}>
+
+          <div className="zp-grid-2" style={{ gap: 20, maxWidth: 820, margin: '0 auto' }}>
             <PricingCard accent={T.accent} theme="light"
-            name="Старт" price={3990} tagline="Telegram-бот и быстрый старт"
-            features={['Telegram-бот с ИИ', 'Ответы по прайсу и FAQ', 'Голосовые сообщения', 'Панель управления', 'До 300 сообщений/мес']} />
+            name="Старт" price={2990} tagline="Telegram и виджет на сайте"
+            features={[
+              'Чат-помощник в Telegram',
+              'Виджет на ваш сайт (одна строка кода)',
+              'Отвечает по вашему прайсу и расписанию',
+              'Записывает клиента на приём',
+              'Напоминания за 24 часа и за 2 часа',
+              'Голосовые сообщения в Telegram',
+              'Передаёт сложное вам в Telegram',
+              'До 300 диалогов в месяц']} />
             <PricingCard accent={T.accent} theme="light" highlighted
-            name="Бизнес" price={5990} tagline="Запись, напоминания и виджет"
-            features={['Всё из «Старт»', 'Виджет на сайт', 'Запись на приём', 'Напоминания клиентам', 'Интеграция с MAX', 'До 1 000 сообщений/мес']} />
-            <PricingCard accent={T.accent} theme="light"
-            name="Премиум" price={11990} tagline="Все каналы и интеграции"
-            features={['Всё из «Бизнес»', 'WhatsApp', 'Авито', 'Интеграция с CRM', 'Кастомная настройка ИИ', 'Безлимит сообщений']} />
+            name="Бизнес" price={4990} tagline="Плюс Авито и WhatsApp"
+            features={[
+              'Всё из «Старт»',
+              'Канал Авито (нужна ваша подписка Avito Pro)',
+              'Канал WhatsApp (через ваш WA Business аккаунт)',
+              'До 1 000 диалогов в месяц']} />
           </div>
         </div>
       </div>
@@ -522,12 +604,11 @@ function Pricing() {
 // ─── FAQ ──────────────────────────────────────────────────────
 function FAQSection() {
   const items = [
-  { q: 'А если бот ответит неправильно?', a: 'Бот отвечает только на основе ваших данных — прайса, расписания, FAQ. Не выдумывает. Если не уверен — честно скажет, что лучше уточнить у мастера, и предложит связаться.' },
-  { q: 'Это безопасно? А персональные данные?', a: 'Соответствует 152-ФЗ. Имена и телефоны не передаются в ИИ — вместо них алиасы. Все согласия фиксируются в журнале аудита.' },
-  { q: 'Бот заменяет администратора?', a: 'Нет, помогает. Берёт рутину: типовые вопросы, запись, напоминания. Сложное — отдаёт человеку.' },
-  { q: 'Сколько занимает настройка?', a: 'Один рабочий день. Вы присылаете прайс и расписание — мы делаем всё остальное. Бесплатно на любом тарифе.' },
-  { q: 'Подходит только автосервисам?', a: 'Сейчас специализируемся на автосервисах, но подходит любому бизнесу с записью: барбершопы, клиники, салоны красоты.' },
-  { q: 'Что после 14 дней?', a: 'Ничего неожиданного. Напомним за 3 дня. Не понравится — бот остановится, без списаний. Понравится — выберете тариф и оплатите.' }];
+  { q: 'А если бот ответит неправильно?', a: 'Помощник отвечает только тем, что вы загрузили: прайс, услуги, расписание. Не выдумывает. Если вопрос за рамками ваших данных, он не пытается выкрутиться, а сразу передаёт диалог вам в Telegram с историей чата.' },
+  { q: 'WhatsApp и Telegram замедляют, зачем там оставаться и платить?', a: 'Аудитория в TG и WhatsApp осталась, особенно платёжеспособный сегмент: те, кто привык платить за сервис и не хочет переходить на другие мессенджеры. Параллельно растёт Авито: за 2024–2025 рост обращений в авто-сегменте на 40 %+ (Forbes). Помощник работает во всех трёх каналах одновременно: где клиент пишет, там и отвечаем.' },
+  { q: 'Это безопасно? А персональные данные клиентов?', a: 'Соответствует 152-ФЗ. Имена, телефоны и email клиентов не передаются в нейросеть, используются алиасы. Согласия на обработку фиксируются в журнале аудита.' },
+  { q: 'Подходит только автосервисам?', a: 'Да, сейчас работаем только с автосервисами. Детейлинг и автосалоны это другой продукт, рассматриваем отдельно.' },
+  { q: 'Сколько занимает подключение?', a: 'Один рабочий день. Вы присылаете прайс и расписание, я загружаю в систему, тестируем вместе, подключаем каналы.' }];
 
   return (
     <section id="faq" className="zp-section">
@@ -535,7 +616,7 @@ function FAQSection() {
         <div className="zp-section-head">
           <div className="zp-kicker">FAQ</div>
           <h2 className="zp-h2">Часто спрашивают</h2>
-          <p className="zp-lead">Не нашли ответ? Напишите в Telegram — отвечаем лично.</p>
+          <p className="zp-lead">Не нашли ответ? Напишите в Telegram, отвечаю лично.</p>
         </div>
         <div>
           <FAQ items={items} accent={T.accent} theme="light" />
@@ -557,12 +638,12 @@ function FinalCTA() {
               Записали?<br />Записали.
             </h2>
             <p style={{ fontSize: 17, color: 'rgba(255,255,255,.7)', maxWidth: 480, lineHeight: 1.55, margin: '0 auto 22px' }}>
-              Подключим бесплатно. Настроим всё под ваш бизнес — без доплат.
+              Сейчас собираю первых 3-5 пилотных автосервисов. Для них всё ниже.
             </p>
             <div style={{ display: 'flex', gap: 18, fontSize: 14, color: 'rgba(255,255,255,.6)', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <span>✓ 14 дней бесплатно</span>
-              <span>✓ Настройка в подарок</span>
-              <span>✓ Без привязки карты</span>
+              <span>✓ 2 месяца бесплатно</span>
+              <span>✓ −20 % навсегда</span>
+              <span>✓ Настройка за мой счёт</span>
             </div>
           </div>
           <div style={{ background: '#fff', borderRadius: 18, padding: 28, color: T.ink, maxWidth: 480, margin: '0 auto' }}>
@@ -588,7 +669,7 @@ function Footer() {
   return (
     <footer style={{ background: T.ink, color: 'rgba(255,255,255,.5)', padding: '32px 0', borderTop: '1px solid rgba(255,255,255,.06)', fontSize: 13 }}>
       <div className="zp-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <span>© 2026 Записали · ИИ-помощник для записи клиентов</span>
+        <span>© 2026 Записали · Чат-помощник для автосервиса</span>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="https://t.me/maksicrypto" target="_blank" rel="noopener" className="zp-link-muted">Telegram</a>
           <a href="https://t.me/maksicrypto" target="_blank" rel="noopener" className="zp-link-muted">Контакты</a>
